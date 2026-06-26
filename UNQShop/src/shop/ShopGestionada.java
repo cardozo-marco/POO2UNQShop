@@ -1,4 +1,4 @@
-package core;
+package shop;
 
 import catalogo.Catalogo;
 import catalogo.ItemCatalogo;
@@ -12,7 +12,10 @@ import reportes.Reporte;
 import reportes.FormateadorReporte;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ShopGestionada {
     
@@ -43,9 +46,27 @@ public class ShopGestionada {
         return this.catalogo.buscar(criterio);
     }
 
-    public String generarReporte(Reporte reporte, FormateadorReporte formateador) {
-        return reporte.accept(formateador);
+    public String generarReporteMasVendidos(FormateadorReporte formateador) {
+    	Map<ItemCatalogo, Integer> contadorVentas = new HashMap<>();
+        for (Pedido pedido : this.pedidos) {
+            for (ItemCatalogo item : pedido.getItems()) {
+                contadorVentas.put(item, contadorVentas.getOrDefault(item, 0) + 1);
+            }
+        }
+        
+        List<ItemCatalogo> masVendidos = contadorVentas.entrySet().stream()
+            .sorted(Map.Entry.<ItemCatalogo, Integer>comparingByValue().reversed())
+            .limit(10)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+        
+        for(ItemCatalogo item : masVendidos) {
+            item.accept(formateador);
+        }
+        
+        return formateador.obtenerReporte();
     }
+    
 
     public List<Cliente> getClientes() {
         return new ArrayList<>(this.clientesRegistrados);
