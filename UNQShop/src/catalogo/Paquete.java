@@ -3,6 +3,8 @@ package catalogo;
 import java.util.ArrayList;
 import java.util.List;
 
+import reportes.FormateadorReporte;
+
 public class Paquete implements ItemCatalogo {
     private String nombre;
     private String descripcion;
@@ -54,10 +56,22 @@ public class Paquete implements ItemCatalogo {
         return precioSuma * (1 - this.descuento);
     }
 
+    
     @Override
     public double getPeso() {
         return this.items.stream()
                    .mapToDouble(ItemCatalogo::getPeso)
                    .sum();
     }
+    
+    
+    @Override
+    public void aceptar(FormateadorReporte visitante) {
+        for (ItemCatalogo item : this.items) {
+            item.aceptar(visitante);
+        }
+        visitante.visitarPaquete(this);
+    }
+
+	
 }
