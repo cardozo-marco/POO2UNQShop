@@ -8,6 +8,10 @@ public class CriterioAND implements CriterioBusqueda {
 	
 	private List<CriterioBusqueda> filtros;
 	
+	public CriterioAND(List<CriterioBusqueda> filtros) {
+		this.filtros = filtros;
+	}
+	
 	@Override
 	public boolean satisface(ItemCatalogo item) {
 		for(CriterioBusqueda c: filtros) {
