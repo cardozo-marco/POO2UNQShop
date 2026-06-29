@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import catalogo.*;
-import shop.*;
 import pago.*;
 
 public class Pedido {
@@ -121,5 +120,9 @@ public class Pedido {
 	    for(PedidoObserver o: observadores) {
 	    	o.actualizar(this, anterior, nuevo);
 	    }
+	}
+	
+	public void agregarObservador(PedidoObserver pedidoObserver) {
+		observadores.add(pedidoObserver);
 	}
 }
