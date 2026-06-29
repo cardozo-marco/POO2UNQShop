@@ -3,6 +3,8 @@ package catalogo;
 import java.util.HashMap;
 import java.util.Map;
 
+import reportes.FormateadorReporte;
+
 public class Producto implements ItemCatalogo {
     private String sku;
     private String nombre;
@@ -58,4 +60,11 @@ public class Producto implements ItemCatalogo {
         return this.sku != null && !this.sku.isEmpty() && 
                this.nombre != null && !this.nombre.isEmpty();
     }
+
+	public void aceptar(FormateadorReporte visitante) {
+		visitante.visitarProducto(this);
+		
+	}
+
+	
 }
