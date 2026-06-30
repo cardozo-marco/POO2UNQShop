@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import catalogo.*;
+import notificaciones.PedidoObserver;
 import shop.*;
 import pago.*;
 
@@ -122,4 +123,28 @@ public class Pedido {
 	    	o.actualizar(this, anterior, nuevo);
 	    }
 	}
+	
+	
+    // OBSERVER 
+    public void agregarObservador(PedidoObserver observer) {
+        this.observadores.add(observer);
+    }
+
+    public void quitarObservador(PedidoObserver observer) {
+        this.observadores.remove(observer);
+    }
+
+    protected void notificar(EstadoPedido estadoAnterior, EstadoPedido nuevoEstado) {
+        // Se le avisa a cada observador suscrito
+        for (PedidoObserver observer : this.observadores) {
+            observer.actualizar(this, estadoAnterior, nuevoEstado);
+        }
+    }
+    
+    
+	
+	
+	
+	
+	
 }

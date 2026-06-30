@@ -12,7 +12,7 @@ import catalogo.ItemCatalogo;
 import catalogo.Paquete;
 import catalogo.Producto;
 
-public class ReporteVisitorTest {
+public class FormateadorHTMLTest {
 
     @Test
     public void testProductoAceptaAlVisitanteYHaceDobleDespacho() {
