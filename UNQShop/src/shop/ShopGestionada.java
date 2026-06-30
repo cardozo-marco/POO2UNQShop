@@ -3,12 +3,11 @@ package shop;
 import catalogo.Catalogo;
 import catalogo.ItemCatalogo;
 import entidades.Cliente;
-import entidades.Pedido;
-import entidades.NotaDeCredito;
+import pedido.Pedido;
+import pedido.NotaDeCredito;
 import envio.MetodoEnvio;
 import pago.MetodoPago;
 import busqueda.CriterioBusqueda;
-import reportes.Reporte;
 import reportes.FormateadorReporte;
 
 import java.util.ArrayList;

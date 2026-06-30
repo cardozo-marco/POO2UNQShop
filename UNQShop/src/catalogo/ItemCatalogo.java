@@ -8,6 +8,8 @@ public interface ItemCatalogo {
     double getPrecioBase();
     double getPrecioFinal();
     double getPeso();
+    int getStock();
+    String getCategoria();
     void reducirStock();
     void reponerStock();
 	void aceptar(FormateadorReporte visitante);

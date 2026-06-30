@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pago.MetodoPago;
 import catalogo.ItemCatalogo;
+import entidades.Cliente;
 
 class PedidoTest {
 	private Pedido pedido;

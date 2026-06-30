@@ -86,6 +86,19 @@ public class Paquete implements ItemCatalogo {
             item.reponerStock();
         }
     }
+    
+    @Override
+    public String getCategoria() {
+        return "Paquete";
+    }
+    
+    @Override
+    public int getStock() {
+        return this.items.stream()
+                   .mapToInt(ItemCatalogo::getStock)
+                   .min()
+                   .orElse(0);
+    }
 
 	
 }

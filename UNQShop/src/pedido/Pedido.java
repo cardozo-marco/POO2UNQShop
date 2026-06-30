@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import catalogo.*;
+import entidades.Cliente;
 import pago.*;
 
 public class Pedido {

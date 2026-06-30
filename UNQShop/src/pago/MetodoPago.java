@@ -1,6 +1,6 @@
 package pago;
 
-import entidades.Pedido;
+import pedido.Pedido;
 
 public abstract class MetodoPago {
     

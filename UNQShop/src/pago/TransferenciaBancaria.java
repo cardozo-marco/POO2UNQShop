@@ -1,6 +1,6 @@
 package pago;
 
-import entidades.Pedido;
+import pedido.Pedido;
 
 public class TransferenciaBancaria extends MetodoPago {
     private String cbuCvu;

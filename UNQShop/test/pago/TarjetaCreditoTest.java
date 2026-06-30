@@ -1,6 +1,6 @@
 package pago;
 
-import entidades.Pedido;
+import pedido.Pedido;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

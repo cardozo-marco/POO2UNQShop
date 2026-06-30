@@ -88,5 +88,16 @@ public class Producto implements ItemCatalogo {
     public void reponerStock() {
         this.stock++;
     }
+    
+    @Override
+    public String getCategoria() {
+        return this.categoria;
+    }
+
+    @Override
+    public int getStock() {
+        return this.stock;
+    }
+
 	
 }
