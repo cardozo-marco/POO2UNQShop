@@ -13,6 +13,7 @@ public class Producto implements ItemCatalogo {
     private double precioBase;
     private double descuentoPromocional;
     private double peso;
+    private int stock;
     private Map<String, Object> atributosDinamicos;
 
     public Producto(String sku, String nombre, double precioBase, double peso) {
@@ -57,8 +58,22 @@ public class Producto implements ItemCatalogo {
     }
 
     public boolean validar() {
-        return this.sku != null && !this.sku.isEmpty() && 
-               this.nombre != null && !this.nombre.isEmpty();
+        // 1. Validar los atributos fijos obligatorios
+        boolean fijosValidos = this.sku != null && !this.sku.trim().isEmpty() && 
+                               this.nombre != null && !this.nombre.trim().isEmpty();
+                               
+        if (!fijosValidos) {
+            return false;
+        }
+
+        // 2. Validar que todos los atributos dinámicos tengan un valor asignado
+        for (Object valor : this.atributosDinamicos.values()) {
+            if (valor == null) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
 	public void aceptar(FormateadorReporte visitante) {
@@ -66,5 +81,12 @@ public class Producto implements ItemCatalogo {
 		
 	}
 
+    public void reducirStock() {
+        this.stock--;
+    }
+
+    public void reponerStock() {
+        this.stock++;
+    }
 	
 }

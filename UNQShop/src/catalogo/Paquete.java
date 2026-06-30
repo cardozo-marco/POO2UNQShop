@@ -73,5 +73,19 @@ public class Paquete implements ItemCatalogo {
         visitante.visitarPaquete(this);
     }
 
+    @Override
+    public void reducirStock() {
+        for (ItemCatalogo item : this.items) {
+            item.reducirStock();
+        }
+    }
+
+    @Override
+    public void reponerStock() {
+        for (ItemCatalogo item : this.items) {
+            item.reponerStock();
+        }
+    }
+
 	
 }

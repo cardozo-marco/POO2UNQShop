@@ -61,7 +61,7 @@ public class ShopGestionada {
             .collect(Collectors.toList());
         
         for(ItemCatalogo item : masVendidos) {
-            item.accept(formateador);
+            item.aceptar(formateador);
         }
         
         return formateador.obtenerReporte();
