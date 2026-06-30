@@ -4,12 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import catalogo.*;
-<<<<<<< HEAD
 import notificaciones.PedidoObserver;
 import shop.*;
-=======
 import entidades.Cliente;
->>>>>>> branch 'main' of https://github.com/cardozo-marco/POO2UNQShop.git
+import envios.MetodoEnvio;
 import pago.*;
 
 public class Pedido {
@@ -144,5 +142,20 @@ public class Pedido {
         	pedidoObserver.actualizar(this, estadoAnterior, nuevoEstado);
         }
     }
+
+	public Object getPesoTotal() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getDireccionEnvio() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public double getValorTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
     
 }

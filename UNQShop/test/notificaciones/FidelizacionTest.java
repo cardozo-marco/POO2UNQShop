@@ -30,14 +30,14 @@ public class FidelizacionTest {
         fidelizacion.actualizar(mockPedido, mockEstadoAnterior, nuevoEstado);
         
         // 3. VERIFY
-        // Valido el aislamiento del SUT
         verifyNoInteractions(mockPedido);
     }
 
     @Test
     public void testFidelizacionNoHaceNadaSiElEstadoEsConfirmado() {
         // 2. EXERCISE
-        EstadoPedido nuevoEstado = new EstadoConfirmado();
+        EstadoPedido nuevoEstado = new EstadoConfirmado(mockPedido); 
+        
         fidelizacion.actualizar(mockPedido, mockEstadoAnterior, nuevoEstado);
     }
 }
