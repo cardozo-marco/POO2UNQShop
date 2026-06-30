@@ -6,7 +6,7 @@ public class EstadoConfirmado implements EstadoPedido {
 	
 	public EstadoConfirmado(Pedido pedido) {
 		for(ItemCatalogo i: pedido.getItems()) {
-			i.reducirStock()
+			i.reducirStock();
 		}
 	}
 

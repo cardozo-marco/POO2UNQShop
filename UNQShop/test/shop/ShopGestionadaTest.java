@@ -2,10 +2,9 @@ package shop;
 
 import catalogo.Catalogo;
 import entidades.Cliente;
-import entidades.Pedido;
+import pedido.Pedido;
 import envio.MetodoEnvio;
 import pago.MetodoPago;
-import reportes.Reporte;
 import reportes.FormateadorReporte;
 import busqueda.CriterioBusqueda;
 import org.junit.jupiter.api.BeforeEach;
