@@ -9,6 +9,7 @@ import notificaciones.PedidoObserver;
 import entidades.Cliente;
 import envios.MetodoEnvio;
 import pago.*;
+import entidades.Direccion;
 
 public class Pedido {
 	
@@ -84,7 +85,7 @@ public class Pedido {
 	public void setEstado(EstadoPedido estado) {
 		EstadoPedido estadoAnterior = this.estadoActual; 
 		this.estadoActual = estado;
-		this.notificarObservadores(estadoAnterior, estado);
+		this.notificar(estadoAnterior, estado);
 	}
 	
 	public double calcularTotal() {
@@ -127,13 +128,6 @@ public class Pedido {
 	public NotaDeCredito getNotaDeCredito() {
 		return this.notaDeCredito; // en caso de que se quiera consultar la nota
 	}
-	
-	private void notificarObservadores(EstadoPedido anterior, EstadoPedido nuevo) {
-	    for(PedidoObserver o: observadores) {
-	    	o.actualizar(this, anterior, nuevo);
-	    }
-	}
-	
 
     // OBSERVER 
     public void agregarObservador(PedidoObserver pedidoObserver) {
@@ -150,20 +144,18 @@ public class Pedido {
         	pedidoObserver.actualizar(this, estadoAnterior, nuevoEstado);
         }
     }
-
-	public Object getPesoTotal() {
-		// TODO Auto-generated method stub
-		return null;
+    
+    // METODOS DE INTEGRACIÓN ENVÍOS
+    
+	public double getPesoTotal() {
+		return items.stream().mapToDouble(i -> i.getPeso()).sum();
 	}
 
-	public Object getDireccionEnvio() {
-		// TODO Auto-generated method stub
-		return null;
+	public Direccion getDireccionEnvio() {
+		return this.cliente.getDireccion();
 	}
 
 	public float getValorTotal() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (float) this.calcularSubtotal();
 	}
-    
 }
