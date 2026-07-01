@@ -62,22 +62,16 @@ public class Producto implements ItemCatalogo {
     }
 
     public boolean validar() {
-        // 1. Validar los atributos fijos obligatorios
-        boolean fijosValidos = this.sku != null && !this.sku.trim().isEmpty() && 
-                               this.nombre != null && !this.nombre.trim().isEmpty();
-                               
-        if (!fijosValidos) {
-            return false;
-        }
+        return atributosFijosValidos() && atributosDinamicosValidos();
+    }
 
-        // 2. Validar que todos los atributos dinámicos tengan un valor asignado
-        for (Object valor : this.atributosDinamicos.values()) {
-            if (valor == null) {
-                return false;
-            }
-        }
-        
-        return true;
+    private boolean atributosFijosValidos() {
+        return this.sku != null && !this.sku.trim().isEmpty() && 
+               this.nombre != null && !this.nombre.trim().isEmpty();
+    }
+
+    private boolean atributosDinamicosValidos() {
+        return !this.atributosDinamicos.containsValue(null);
     }
 
 	@Override
