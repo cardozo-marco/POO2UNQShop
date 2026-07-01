@@ -29,6 +29,10 @@ public class Producto implements ItemCatalogo {
         return this.nombre;
     }
 
+    public String getMarca() {
+        return this.marca;
+    }
+
     @Override
     public String getDescripcion() {
         return "Producto: " + this.nombre + " - SKU: " + this.sku;
@@ -76,9 +80,9 @@ public class Producto implements ItemCatalogo {
         return true;
     }
 
-	public void aceptar(FormateadorReporte visitante) {
-		visitante.visitarProducto(this);
-		
+	@Override
+	public void aceptar(FormateadorReporte visitante, int cantidadVentas, double precioPromedio) {
+		visitante.visitarProducto(this, cantidadVentas, precioPromedio);
 	}
 
     public void reducirStock() {
@@ -99,5 +103,4 @@ public class Producto implements ItemCatalogo {
         return this.stock;
     }
 
-	
 }

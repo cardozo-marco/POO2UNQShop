@@ -1,7 +1,6 @@
-/busqueda/
-/catalogo/
-/pago/
-/pedido/
-/reportes/
-/shop/
 /entidades/
+/shop/
+/catalogo/
+/reportes/
+/notificaciones/
+/pedido/

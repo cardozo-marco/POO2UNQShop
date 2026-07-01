@@ -1,45 +1,36 @@
 package reportes;
 
-import java.util.Map;
 
-import catalogo.ItemCatalogo;
 import catalogo.Paquete;
 import catalogo.Producto;
+import java.util.Locale;
 
 public class FormateadorHTML implements FormateadorReporte {
-    
     private StringBuilder contenidoHtml;
-    // Agrego la variable para guardar el map de ventas
-    private Map<ItemCatalogo, Integer> mapVentas;
 
-    // Modifico el constructor para recibir el map
-    public FormateadorHTML(Map<ItemCatalogo, Integer> mapVentas) {
+    public FormateadorHTML() {
         this.contenidoHtml = new StringBuilder();
-        this.mapVentas = mapVentas;
+        this.contenidoHtml.append("<table>\n");
+        this.contenidoHtml.append("<tr><th>Item</th><th>Tipo</th><th>Cantidad</th><th>Precio Prom.</th></tr>\n");
     }
 
     @Override
-    public void visitarProducto(Producto p) {
-        // Extraigo la cantidad del map. 
-        // Uso getOrDefault por si un producto nunca se vendió, para que devuelva 0 en vez de null.
-        int cantidad = this.mapVentas.getOrDefault(p, 0);
-
-        contenidoHtml.append("<tr>\n");
-        contenidoHtml.append("  <td>").append(p.getNombre()).append("</td>\n");
-        contenidoHtml.append("  <td>").append(cantidad).append("</td>\n");
-        contenidoHtml.append("</tr>\n");
+    public void visitarProducto(Producto producto, int cantidad, double precioPromedio) {
+        contenidoHtml.append("<tr>")
+          .append("<td>").append(producto.getNombre()).append("</td>")
+          .append("<td>Producto</td>")
+          .append("<td>").append(cantidad).append("</td>")
+          .append("<td>$").append(String.format(Locale.US, "%.2f", precioPromedio)).append("</td>")
+          .append("</tr>\n");
     }
 
     @Override
-    public void visitarPaquete(Paquete paquete) {
-        
-        int cantidad = this.mapVentas.getOrDefault(paquete, 0);
-
-        contenidoHtml.append("<tr>\n");
-        // Le agrego el texto "(Paquete)" para distinguirlo visualmente 
-        contenidoHtml.append("  <td>").append(paquete.getNombre()).append(" (Paquete)</td>\n");
-        contenidoHtml.append("  <td>").append(cantidad).append("</td>\n");
-        contenidoHtml.append("</tr>\n");
+    public void visitarPaquete(Paquete paquete, int cantidad, double precioPromedio) {
+        contenidoHtml.append("<tr>")
+          .append("<td>").append(paquete.getNombre()).append(" (Paquete)</td>")
+          .append("<td>").append(cantidad).append("</td>")
+          .append("<td>$").append(String.format(Locale.US, "%.2f", precioPromedio)).append("</td>")
+          .append("</tr>\n");
     }
 
     @Override
@@ -47,5 +38,6 @@ public class FormateadorHTML implements FormateadorReporte {
         return contenidoHtml.toString();
     }
 }
+
 
 

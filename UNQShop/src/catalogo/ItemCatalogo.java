@@ -12,5 +12,5 @@ public interface ItemCatalogo {
     String getCategoria();
     void reducirStock();
     void reponerStock();
-	void aceptar(FormateadorReporte visitante);
+	void aceptar(FormateadorReporte visitante, int cantidadVentas, double precioPromedio);
 }

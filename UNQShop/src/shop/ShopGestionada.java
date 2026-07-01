@@ -5,13 +5,12 @@ import catalogo.ItemCatalogo;
 import entidades.Cliente;
 import pedido.Pedido;
 import pedido.NotaDeCredito;
-import envio.MetodoEnvio;
+import envios.MetodoEnvio;
 import pago.MetodoPago;
 import busqueda.CriterioBusqueda;
 import reportes.FormateadorReporte;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,23 +45,21 @@ public class ShopGestionada {
     }
 
     public String generarReporteMasVendidos(FormateadorReporte formateador) {
-    	Map<ItemCatalogo, Integer> contadorVentas = new HashMap<>();
-        for (Pedido pedido : this.pedidos) {
-            for (ItemCatalogo item : pedido.getItems()) {
-                contadorVentas.put(item, contadorVentas.getOrDefault(item, 0) + 1);
-            }
-        }
-        
-        List<ItemCatalogo> masVendidos = contadorVentas.entrySet().stream()
-            .sorted(Map.Entry.<ItemCatalogo, Integer>comparingByValue().reversed())
+        Map<String, List<ItemCatalogo>> ventasPorNombre = this.pedidos.stream()
+            .flatMap(pedido -> pedido.getItems().stream())
+            .collect(Collectors.groupingBy(ItemCatalogo::getNombre));
+
+        ventasPorNombre.entrySet().stream()
+            .sorted((e1, e2) -> Integer.compare(e2.getValue().size(), e1.getValue().size()))
             .limit(10)
-            .map(Map.Entry::getKey)
-            .collect(Collectors.toList());
-        
-        for(ItemCatalogo item : masVendidos) {
-            item.aceptar(formateador);
-        }
-        
+            .forEach(entry -> {
+                List<ItemCatalogo> items = entry.getValue();
+                ItemCatalogo item = items.get(0);
+                int cantidad = items.size();
+                double precioPromedio = items.stream().mapToDouble(ItemCatalogo::getPrecioFinal).average().orElse(0.0);
+                item.aceptar(formateador, cantidad, precioPromedio);
+            });
+            
         return formateador.obtenerReporte();
     }
     

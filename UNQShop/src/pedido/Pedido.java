@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import catalogo.*;
+import notificaciones.PedidoObserver;
+
 import entidades.Cliente;
+import envios.MetodoEnvio;
 import pago.*;
 
 public class Pedido {
@@ -69,6 +72,10 @@ public class Pedido {
 	public Cliente getCliente() {
 		return this.cliente;
 	}
+
+	public LocalDate getFecha() {
+		return this.fecha;
+	}
 	
 	public EstadoPedido getEstado() {
 		return this.estadoActual;
@@ -108,6 +115,10 @@ public class Pedido {
 	    this.cuponPago = cupon;
 	    this.setCodigoTransaccion("TX-TARJETA-" + cupon.hashCode());
 	}
+
+	public String getCuponPago() {
+		return this.cuponPago;
+	}
 	
 	public void procesarPago() {
 		metodoPago.procesarPago(this);
@@ -123,7 +134,36 @@ public class Pedido {
 	    }
 	}
 	
-	public void agregarObservador(PedidoObserver pedidoObserver) {
-		observadores.add(pedidoObserver);
+
+    // OBSERVER 
+    public void agregarObservador(PedidoObserver pedidoObserver) {
+        this.observadores.add(pedidoObserver);
+    }
+
+    public void quitarObservador(PedidoObserver pedidoObserver) {
+        this.observadores.remove(pedidoObserver);
+    }
+
+    protected void notificar(EstadoPedido estadoAnterior, EstadoPedido nuevoEstado) {
+        // Se le avisa a cada observador suscrito
+        for (PedidoObserver pedidoObserver : this.observadores) {
+        	pedidoObserver.actualizar(this, estadoAnterior, nuevoEstado);
+        }
+    }
+
+	public Object getPesoTotal() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	public Object getDireccionEnvio() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public float getValorTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+    
 }
