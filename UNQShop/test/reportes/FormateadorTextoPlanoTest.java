@@ -38,18 +38,18 @@ public class FormateadorTextoPlanoTest {
     @Test
     public void testFormateadorGeneraReporteConItemsVendidosYSinVentas() {
         // 2. EXERCISE
-        formateador.visitarProducto(mockProducto, 10);
-        formateador.visitarPaquete(mockPaquete, 5);
-        formateador.visitarProducto(mockProductoSinVentas, 0); 
+        formateador.visitarProducto(mockProducto, 10, 100.50);
+        formateador.visitarPaquete(mockPaquete, 5, 950.0);
+        formateador.visitarProducto(mockProductoSinVentas, 0, 0.0); 
         
         String reporte = formateador.obtenerReporte();
 
         // 3. VERIFY
         // Compruebo la estructura del texto 
         assertTrue(reporte.contains("--- REPORTE DE PRODUCTOS MÁS VENDIDOS ---"));
-        assertTrue(reporte.contains("- Producto: Zapatillas | Unidades vendidas: 10"));
-        assertTrue(reporte.contains("- Paquete: Kit Escolar | Unidades vendidas: 5"));
-        assertTrue(reporte.contains("- Producto: Medias | Unidades vendidas: 0")); 
+        assertTrue(reporte.contains("- Producto: Zapatillas | Unidades vendidas: 10 | Precio Promedio: $100.50"));
+        assertTrue(reporte.contains("- Paquete: Kit Escolar | Unidades vendidas: 5 | Precio Promedio: $950.00"));
+        assertTrue(reporte.contains("- Producto: Medias | Unidades vendidas: 0 | Precio Promedio: $0.00")); 
         
         // Me aseguro que el formateador le pidió el nombre a los items
         verify(mockProducto).getNombre();

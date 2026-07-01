@@ -3,29 +3,34 @@ package reportes;
 
 import catalogo.Paquete;
 import catalogo.Producto;
+import java.util.Locale;
 
 public class FormateadorHTML implements FormateadorReporte {
     private StringBuilder contenidoHtml;
 
     public FormateadorHTML() {
         this.contenidoHtml = new StringBuilder();
+        this.contenidoHtml.append("<table>\n");
+        this.contenidoHtml.append("<tr><th>Item</th><th>Tipo</th><th>Cantidad</th><th>Precio Prom.</th></tr>\n");
     }
 
     @Override
-    public void visitarProducto(Producto p, int cantidadVentas) {
-        contenidoHtml.append("<tr>\n");
-        contenidoHtml.append("  <td>").append(p.getNombre()).append("</td>\n");
-        contenidoHtml.append("  <td>").append(cantidadVentas).append("</td>\n");
-        contenidoHtml.append("</tr>\n");
+    public void visitarProducto(Producto producto, int cantidad, double precioPromedio) {
+        contenidoHtml.append("<tr>")
+          .append("<td>").append(producto.getNombre()).append("</td>")
+          .append("<td>Producto</td>")
+          .append("<td>").append(cantidad).append("</td>")
+          .append("<td>$").append(String.format(Locale.US, "%.2f", precioPromedio)).append("</td>")
+          .append("</tr>\n");
     }
 
     @Override
-    public void visitarPaquete(Paquete paquete, int cantidadVentas) {
-        contenidoHtml.append("<tr>\n");
-        // Le agrego el texto "(Paquete)" para distinguirlo visualmente 
-        contenidoHtml.append("  <td>").append(paquete.getNombre()).append(" (Paquete)</td>\n");
-        contenidoHtml.append("  <td>").append(cantidadVentas).append("</td>\n");
-        contenidoHtml.append("</tr>\n");
+    public void visitarPaquete(Paquete paquete, int cantidad, double precioPromedio) {
+        contenidoHtml.append("<tr>")
+          .append("<td>").append(paquete.getNombre()).append(" (Paquete)</td>")
+          .append("<td>").append(cantidad).append("</td>")
+          .append("<td>$").append(String.format(Locale.US, "%.2f", precioPromedio)).append("</td>")
+          .append("</tr>\n");
     }
 
     @Override

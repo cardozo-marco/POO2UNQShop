@@ -81,8 +81,8 @@ public class Producto implements ItemCatalogo {
     }
 
 	@Override
-	public void aceptar(FormateadorReporte visitante, int cantidadVentas) {
-		visitante.visitarProducto(this, cantidadVentas);
+	public void aceptar(FormateadorReporte visitante, int cantidadVentas, double precioPromedio) {
+		visitante.visitarProducto(this, cantidadVentas, precioPromedio);
 	}
 
     public void reducirStock() {

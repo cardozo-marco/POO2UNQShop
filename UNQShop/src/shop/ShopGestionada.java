@@ -11,7 +11,6 @@ import busqueda.CriterioBusqueda;
 import reportes.FormateadorReporte;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,23 +45,19 @@ public class ShopGestionada {
     }
 
     public String generarReporteMasVendidos(FormateadorReporte formateador) {
-        Map<String, Long> conteoPorNombre = this.pedidos.stream()
+        Map<String, List<ItemCatalogo>> ventasPorNombre = this.pedidos.stream()
             .flatMap(pedido -> pedido.getItems().stream())
-            .collect(Collectors.groupingBy(ItemCatalogo::getNombre, Collectors.counting()));
+            .collect(Collectors.groupingBy(ItemCatalogo::getNombre));
 
-        Map<String, ItemCatalogo> itemsPorNombre = new HashMap<>();
-        for (Pedido pedido : this.pedidos) {
-            for (ItemCatalogo item : pedido.getItems()) {
-                itemsPorNombre.putIfAbsent(item.getNombre(), item);
-            }
-        }
-
-        conteoPorNombre.entrySet().stream()
-            .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+        ventasPorNombre.entrySet().stream()
+            .sorted((e1, e2) -> Integer.compare(e2.getValue().size(), e1.getValue().size()))
             .limit(10)
             .forEach(entry -> {
-                ItemCatalogo item = itemsPorNombre.get(entry.getKey());
-                item.aceptar(formateador, entry.getValue().intValue());
+                List<ItemCatalogo> items = entry.getValue();
+                ItemCatalogo item = items.get(0);
+                int cantidad = items.size();
+                double precioPromedio = items.stream().mapToDouble(ItemCatalogo::getPrecioFinal).average().orElse(0.0);
+                item.aceptar(formateador, cantidad, precioPromedio);
             });
             
         return formateador.obtenerReporte();

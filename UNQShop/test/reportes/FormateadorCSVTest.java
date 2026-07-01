@@ -37,18 +37,18 @@ public class FormateadorCSVTest {
     @Test
     public void testFormateadorCSVGeneraReporte() {
         // 2. EXERCISE
-        formateador.visitarProducto(mockProducto, 3);
-        formateador.visitarPaquete(mockPaquete, 1);
-        formateador.visitarPaquete(mockPaqueteSinVentas, 0);
+        formateador.visitarProducto(mockProducto, 3, 100.50);
+        formateador.visitarPaquete(mockPaquete, 1, 950.0);
+        formateador.visitarPaquete(mockPaqueteSinVentas, 0, 0.0);
         
         String reporte = formateador.obtenerReporte();
 
         // 3. VERIFY
         // Verifico cabecera y estructura 
-        assertTrue(reporte.contains("Item,CantidadVendida"));
-        assertTrue(reporte.contains("Monitor,3"));
-        assertTrue(reporte.contains("Combo Gamer (Paquete),1"));
-        assertTrue(reporte.contains("Kit Oficina (Paquete),0"));
+        assertTrue(reporte.contains("Item,CantidadVendida,PrecioPromedio"));
+        assertTrue(reporte.contains("Monitor,3,100.50"));
+        assertTrue(reporte.contains("Combo Gamer (Paquete),1,950.00"));
+        assertTrue(reporte.contains("Kit Oficina (Paquete),0,0.00"));
         
         verify(mockProducto).getNombre();
         verify(mockPaquete).getNombre();

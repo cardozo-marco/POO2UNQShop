@@ -66,8 +66,8 @@ public class Paquete implements ItemCatalogo {
     
     
     @Override
-    public void aceptar(FormateadorReporte visitante, int cantidadVentas) {
-        visitante.visitarPaquete(this, cantidadVentas);
+    public void aceptar(FormateadorReporte visitante, int cantidadVentas, double precioPromedio) {
+        visitante.visitarPaquete(this, cantidadVentas, precioPromedio);
     }
 
     @Override

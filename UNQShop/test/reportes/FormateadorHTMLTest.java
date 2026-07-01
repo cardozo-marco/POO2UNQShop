@@ -2,10 +2,9 @@ package reportes;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
 
 import catalogo.Paquete;
 import catalogo.Producto;
@@ -21,10 +20,10 @@ public class FormateadorHTMLTest {
         FormateadorReporte mockFormateador = mock(FormateadorReporte.class);
 
         // 2. Ejecutamos el método que queremos probar
-        producto.aceptar(mockFormateador, 10);
+        producto.aceptar(mockFormateador, 10, 50.0);
 
         // 3. Verifico con Mockito que el producto llamó al método visitarProducto pasándose a sí mismo
-        verify(mockFormateador).visitarProducto(producto, 10);
+        verify(mockFormateador).visitarProducto(producto, 10, 50.0);
               
     }
     
@@ -38,12 +37,14 @@ public class FormateadorHTMLTest {
         FormateadorHTML formateador = new FormateadorHTML();
 
         // 2. EXERCISE
-        formateador.visitarProducto(mockProducto, 10);
+        formateador.visitarProducto(mockProducto, 10, 50.0);
         String resultadoHTML = formateador.obtenerReporte();
 
         // 3. VERIFY
-        org.junit.jupiter.api.Assertions.assertTrue(resultadoHTML.contains("Zapatillas"));
-        org.junit.jupiter.api.Assertions.assertTrue(resultadoHTML.contains("10"));
+        assertTrue(resultadoHTML.contains("<th>Precio Prom.</th>"));
+        assertTrue(resultadoHTML.contains("<td>Zapatillas</td>"));
+        assertTrue(resultadoHTML.contains("<td>10</td>"));
+        assertTrue(resultadoHTML.contains("<td>$50.00</td>"));
     }
     
     
@@ -56,10 +57,10 @@ public class FormateadorHTMLTest {
         FormateadorReporte mockFormateador = mock(FormateadorReporte.class);
 
         // 2. Ejecuto el método aceptar sobre el paquete
-        paquete.aceptar(mockFormateador, 5);
+        paquete.aceptar(mockFormateador, 5, 200.0);
 
         // 3. Verifico el doble-despacho
-        verify(mockFormateador).visitarPaquete(paquete, 5);
+        verify(mockFormateador).visitarPaquete(paquete, 5, 200.0);
     }
     
     @Test
@@ -72,13 +73,14 @@ public class FormateadorHTMLTest {
         FormateadorHTML formateador = new FormateadorHTML();
 
         // 2. EXERCISE
-        formateador.visitarPaquete(mockPaquete, 5);
+        formateador.visitarPaquete(mockPaquete, 5, 200.0);
         String resultadoHTML = formateador.obtenerReporte();
 
         // 3. VERIFY
-        org.junit.jupiter.api.Assertions.assertTrue(resultadoHTML.contains("Kit Home Office"));
-        org.junit.jupiter.api.Assertions.assertTrue(resultadoHTML.contains("(Paquete)"));
-        org.junit.jupiter.api.Assertions.assertTrue(resultadoHTML.contains("5"));
+        assertTrue(resultadoHTML.contains("<th>Precio Prom.</th>"));
+        assertTrue(resultadoHTML.contains("<td>Kit Home Office (Paquete)</td>"));
+        assertTrue(resultadoHTML.contains("<td>5</td>"));
+        assertTrue(resultadoHTML.contains("<td>$200.00</td>"));
+        assertTrue(resultadoHTML.contains("5"));
     }
 }
-
