@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import catalogo.*;
 import notificaciones.PedidoObserver;
-import shop.*;
+
 import entidades.Cliente;
 import envios.MetodoEnvio;
 import pago.*;
@@ -72,6 +72,10 @@ public class Pedido {
 	public Cliente getCliente() {
 		return this.cliente;
 	}
+
+	public LocalDate getFecha() {
+		return this.fecha;
+	}
 	
 	public EstadoPedido getEstado() {
 		return this.estadoActual;
@@ -110,6 +114,10 @@ public class Pedido {
 	public void registrarCupon(String cupon) {
 	    this.cuponPago = cupon;
 	    this.setCodigoTransaccion("TX-TARJETA-" + cupon.hashCode());
+	}
+
+	public String getCuponPago() {
+		return this.cuponPago;
 	}
 	
 	public void procesarPago() {

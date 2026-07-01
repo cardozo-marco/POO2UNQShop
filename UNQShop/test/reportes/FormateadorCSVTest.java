@@ -5,13 +5,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import catalogo.ItemCatalogo;
+
 import catalogo.Paquete;
 import catalogo.Producto;
 
@@ -33,19 +31,15 @@ public class FormateadorCSVTest {
         when(mockPaquete.getNombre()).thenReturn("Combo Gamer");
         when(mockPaqueteSinVentas.getNombre()).thenReturn("Kit Oficina");
 
-        Map<ItemCatalogo, Integer> mapVentas = new HashMap<>();
-        mapVentas.put(mockProducto, 3);
-        mapVentas.put(mockPaquete, 1);
-
-        formateador = new FormateadorCSV(mapVentas);
+        formateador = new FormateadorCSV();
     }
 
     @Test
     public void testFormateadorCSVGeneraReporte() {
         // 2. EXERCISE
-        formateador.visitarProducto(mockProducto);
-        formateador.visitarPaquete(mockPaquete);
-        formateador.visitarPaquete(mockPaqueteSinVentas);
+        formateador.visitarProducto(mockProducto, 3);
+        formateador.visitarPaquete(mockPaquete, 1);
+        formateador.visitarPaquete(mockPaqueteSinVentas, 0);
         
         String reporte = formateador.obtenerReporte();
 

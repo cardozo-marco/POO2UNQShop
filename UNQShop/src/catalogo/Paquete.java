@@ -66,11 +66,8 @@ public class Paquete implements ItemCatalogo {
     
     
     @Override
-    public void aceptar(FormateadorReporte visitante) {
-        for (ItemCatalogo item : this.items) {
-            item.aceptar(visitante);
-        }
-        visitante.visitarPaquete(this);
+    public void aceptar(FormateadorReporte visitante, int cantidadVentas) {
+        visitante.visitarPaquete(this, cantidadVentas);
     }
 
     @Override
@@ -100,5 +97,4 @@ public class Paquete implements ItemCatalogo {
                    .orElse(0);
     }
 
-	
 }

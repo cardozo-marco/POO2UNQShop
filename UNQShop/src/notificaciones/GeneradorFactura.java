@@ -1,6 +1,6 @@
 package notificaciones;
 
-import notificaciones.PedidoObserver;
+
 import pedido.EstadoPedido;
 import pedido.Pedido;
 

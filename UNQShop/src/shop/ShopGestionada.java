@@ -5,7 +5,7 @@ import catalogo.ItemCatalogo;
 import entidades.Cliente;
 import pedido.Pedido;
 import pedido.NotaDeCredito;
-import envio.MetodoEnvio;
+import envios.MetodoEnvio;
 import pago.MetodoPago;
 import busqueda.CriterioBusqueda;
 import reportes.FormateadorReporte;
@@ -46,23 +46,25 @@ public class ShopGestionada {
     }
 
     public String generarReporteMasVendidos(FormateadorReporte formateador) {
-    	Map<ItemCatalogo, Integer> contadorVentas = new HashMap<>();
+        Map<String, Long> conteoPorNombre = this.pedidos.stream()
+            .flatMap(pedido -> pedido.getItems().stream())
+            .collect(Collectors.groupingBy(ItemCatalogo::getNombre, Collectors.counting()));
+
+        Map<String, ItemCatalogo> itemsPorNombre = new HashMap<>();
         for (Pedido pedido : this.pedidos) {
             for (ItemCatalogo item : pedido.getItems()) {
-                contadorVentas.put(item, contadorVentas.getOrDefault(item, 0) + 1);
+                itemsPorNombre.putIfAbsent(item.getNombre(), item);
             }
         }
-        
-        List<ItemCatalogo> masVendidos = contadorVentas.entrySet().stream()
-            .sorted(Map.Entry.<ItemCatalogo, Integer>comparingByValue().reversed())
+
+        conteoPorNombre.entrySet().stream()
+            .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
             .limit(10)
-            .map(Map.Entry::getKey)
-            .collect(Collectors.toList());
-        
-        for(ItemCatalogo item : masVendidos) {
-            item.aceptar(formateador);
-        }
-        
+            .forEach(entry -> {
+                ItemCatalogo item = itemsPorNombre.get(entry.getKey());
+                item.aceptar(formateador, entry.getValue().intValue());
+            });
+            
         return formateador.obtenerReporte();
     }
     

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import pago.MetodoPago;
 import catalogo.ItemCatalogo;
 import entidades.Cliente;
+import envios.MetodoEnvio;
+import notificaciones.PedidoObserver;
 
 class PedidoTest {
 	private Pedido pedido;
@@ -35,7 +37,7 @@ class PedidoTest {
         pedido.agregarItem(item);
         
         // El envío con costo 50
-        when(envioMock.calcularCosto(pedido)).thenReturn(50.0);
+        when(envioMock.calcularCosto(pedido)).thenReturn(50.0f);
 
         assertEquals(150.0, pedido.calcularTotal(), "El total debe ser subtotal + envio");
     }

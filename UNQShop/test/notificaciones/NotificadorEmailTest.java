@@ -32,7 +32,7 @@ public class NotificadorEmailTest {
     @Test
     public void testNotificadorEnviaMailSiElEstadoEsConfirmado() {
         // 2. EXERCISE
-        notificador.actualizar(mockPedido, mockEstadoAnterior, new EstadoConfirmado());
+        notificador.actualizar(mockPedido, mockEstadoAnterior, new EstadoConfirmado(mockPedido));
         // 3. VERIFY: Verifico la interacción con el mock
         verify(mockMailSender, times(1)).enviar(anyString());
     }

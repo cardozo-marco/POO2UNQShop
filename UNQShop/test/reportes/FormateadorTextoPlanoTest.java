@@ -5,13 +5,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import catalogo.ItemCatalogo;
+
 import catalogo.Paquete;
 import catalogo.Producto;
 
@@ -34,21 +32,15 @@ public class FormateadorTextoPlanoTest {
         when(mockPaquete.getNombre()).thenReturn("Kit Escolar");
         when(mockProductoSinVentas.getNombre()).thenReturn("Medias");
 
-        // Preparo el map de ventas 
-        Map<ItemCatalogo, Integer> mapVentas = new HashMap<>();
-        mapVentas.put(mockProducto, 10);
-        mapVentas.put(mockPaquete, 5);
-        // No agrego mockProductoSinVentas al map por estar usando getOrDefault(p, 0)
-
-        formateador = new FormateadorTextoPlano(mapVentas);
+        formateador = new FormateadorTextoPlano();
     }
 
     @Test
     public void testFormateadorGeneraReporteConItemsVendidosYSinVentas() {
         // 2. EXERCISE
-        formateador.visitarProducto(mockProducto);
-        formateador.visitarPaquete(mockPaquete);
-        formateador.visitarProducto(mockProductoSinVentas); 
+        formateador.visitarProducto(mockProducto, 10);
+        formateador.visitarPaquete(mockPaquete, 5);
+        formateador.visitarProducto(mockProductoSinVentas, 0); 
         
         String reporte = formateador.obtenerReporte();
 

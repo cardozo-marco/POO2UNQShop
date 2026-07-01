@@ -37,7 +37,7 @@ public class GeneradorFacturaTest {
     @Test
     public void testGeneradorNoHaceNadaSiElEstadoEsDistintoAEntregado() {
         // 2. EXERCISE 
-        EstadoPedido nuevoEstado = new EstadoConfirmado();
+        EstadoPedido nuevoEstado = new EstadoConfirmado(mockPedido);
         generador.actualizar(mockPedido, mockEstadoAnterior, nuevoEstado);
     }
 }
