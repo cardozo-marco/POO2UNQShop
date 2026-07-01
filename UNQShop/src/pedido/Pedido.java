@@ -147,8 +147,8 @@ public class Pedido {
     
     // METODOS DE INTEGRACIÓN ENVÍOS
     
-	public double getPesoTotal() {
-		return items.stream().mapToDouble(i -> i.getPeso()).sum();
+	public float getPesoTotal() {
+		return (float) items.stream().mapToDouble(i -> i.getPeso()).sum();
 	}
 
 	public Direccion getDireccionEnvio() {
