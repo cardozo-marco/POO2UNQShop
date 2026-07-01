@@ -34,4 +34,20 @@ public class TransferenciaBancariaTest {
         
         verify(pedidoMock, times(1)).registrarComprobante(anyString());
     }
+    @Test
+    public void testProcesarPagoFallaSiValidacionInvalida() {
+        when(apiMock.validarCbuAlias(anyString(), anyString())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("CBU o Alias inválido", ex.getMessage());
+    }
+
+    @Test
+    public void testProcesarPagoFallaSiTransferenciaFalla() {
+        when(apiMock.validarCbuAlias(anyString(), anyString())).thenReturn(true);
+        when(apiMock.ejecutarTransferencia(anyDouble())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("Error en la transferencia bancaria", ex.getMessage());
+    }
 }

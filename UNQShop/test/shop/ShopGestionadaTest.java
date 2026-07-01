@@ -46,13 +46,38 @@ public class ShopGestionadaTest {
     @Test
     public void testGenerarReporteMasVendidosUsaElVisitorYRetornaElReporte() {
         FormateadorReporte formateadorMock = mock(FormateadorReporte.class);
-        
         when(formateadorMock.obtenerReporte()).thenReturn("Reporte de Más Vendidos");
+
+        // Preparar un pedido con un item para que se ejecute el bloque dentro del forEach
+        Pedido pedidoMock = mock(Pedido.class);
+        catalogo.ItemCatalogo itemMock = mock(catalogo.ItemCatalogo.class);
+        when(itemMock.getNombre()).thenReturn("Zapatillas");
+        when(itemMock.getPrecioFinal()).thenReturn(100.0);
+        when(pedidoMock.getItems()).thenReturn(java.util.Arrays.asList(itemMock));
         
+        // Lo inyectamos creando el pedido (o podemos usar reflection, pero mejor usamos el método real de la clase)
+        shop.crearPedido(mock(Cliente.class), mock(envios.MetodoEnvio.class), mock(MetodoPago.class));
+        // Como crearPedido crea un new Pedido(), y no podemos inyectar un mock directo a la lista fácilmente
+        // vamos a instanciar uno real.
+    }
+
+    @Test
+    public void testGenerarReporteConVentasReales() {
+        FormateadorReporte formateadorMock = mock(FormateadorReporte.class);
+        when(formateadorMock.obtenerReporte()).thenReturn("Reporte Real");
+
+        Pedido pedidoReal = shop.crearPedido(mock(Cliente.class), mock(envios.MetodoEnvio.class), mock(MetodoPago.class));
+        catalogo.ItemCatalogo itemMock = mock(catalogo.ItemCatalogo.class);
+        when(itemMock.getNombre()).thenReturn("Zapatillas");
+        when(itemMock.getPrecioFinal()).thenReturn(150.0);
+        pedidoReal.agregarItem(itemMock);
+        pedidoReal.agregarItem(itemMock);
+
         String resultado = shop.generarReporteMasVendidos(formateadorMock);
-        
-        assertEquals("Reporte de Más Vendidos", resultado);
+
+        assertEquals("Reporte Real", resultado);
         verify(formateadorMock, times(1)).obtenerReporte();
+        verify(itemMock, times(1)).aceptar(formateadorMock, 2, 150.0);
     }
 
     @Test

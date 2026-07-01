@@ -36,4 +36,30 @@ public class BilleteraVirtualTest {
         verify(apiMock, times(1)).enviarNotificacionPush(eq("usuario@mail.com"), anyString());
         verify(pedidoMock, times(1)).setCodigoTransaccion(anyString());
     }
+    @Test
+    public void testProcesarPagoFallaSiSaldoInsuficiente() {
+        when(apiMock.validarSaldo(anyString(), anyDouble())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("Saldo insuficiente en billetera virtual", ex.getMessage());
+    }
+
+    @Test
+    public void testProcesarPagoFallaSiNoSePuedeBloquearSaldo() {
+        when(apiMock.validarSaldo(anyString(), anyDouble())).thenReturn(true);
+        when(apiMock.bloquearSaldo(anyString(), anyDouble())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("No se pudo bloquear el saldo de la billetera", ex.getMessage());
+    }
+
+    @Test
+    public void testProcesarPagoFallaSiFallaAcreditar() {
+        when(apiMock.validarSaldo(anyString(), anyDouble())).thenReturn(true);
+        when(apiMock.bloquearSaldo(anyString(), anyDouble())).thenReturn(true);
+        when(apiMock.acreditar(anyString(), anyDouble())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("Error al acreditar el pago con la billetera", ex.getMessage());
+    }
 }

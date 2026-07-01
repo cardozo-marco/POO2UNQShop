@@ -47,4 +47,23 @@ public class TarjetaCreditoTest {
 
         assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
     }
+
+    @Test
+    public void testProcesarPagoFallaSiNoSePuedenReservarFondos() {
+        when(apiMock.validarTarjeta(anyString(), anyString(), anyString())).thenReturn(true);
+        when(apiMock.preAutorizar(anyDouble())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("No se pudieron reservar los fondos", ex.getMessage());
+    }
+
+    @Test
+    public void testProcesarPagoFallaSiFallaEjecutarTransaccion() {
+        when(apiMock.validarTarjeta(anyString(), anyString(), anyString())).thenReturn(true);
+        when(apiMock.preAutorizar(anyDouble())).thenReturn(true);
+        when(apiMock.transferirFondos(anyDouble())).thenReturn(false);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> metodoPago.procesarPago(pedidoMock));
+        assertEquals("Error al ejecutar la transacción", ex.getMessage());
+    }
 }
