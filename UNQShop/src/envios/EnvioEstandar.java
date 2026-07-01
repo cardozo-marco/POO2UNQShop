@@ -12,14 +12,12 @@ public class EnvioEstandar implements MetodoEnvio {
     }
 
     @Override
-    public double calcularCosto(Pedido pedido) {
-        
+    public float calcularCosto(Pedido pedido) {       
         return correo.estimarEnvio(pedido.getPesoTotal(), pedido.getDireccionEnvio());
     }
 
     @Override
     public int estimarDiasEntrega(Pedido pedido) {
-        
         return 5; 
     }
 }

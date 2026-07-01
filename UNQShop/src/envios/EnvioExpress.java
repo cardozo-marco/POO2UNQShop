@@ -12,8 +12,8 @@ public class EnvioExpress implements MetodoEnvio {
     }
 
     @Override
-    public double calcularCosto(Pedido pedido) {
-        double precio = pedido.getValorTotal();
+    public float calcularCosto(Pedido pedido) {
+        float precio = pedido.getValorTotal();
         return cargoBase + (precio * (porcentajeCargoTotal / 100f));
     }
 

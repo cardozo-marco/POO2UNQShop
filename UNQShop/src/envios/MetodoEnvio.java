@@ -4,7 +4,7 @@ import pedido.Pedido;
 
 public interface MetodoEnvio {
     
-    double calcularCosto(Pedido pedido);
+	float calcularCosto(Pedido pedido);
     
     int estimarDiasEntrega(Pedido pedido);
     

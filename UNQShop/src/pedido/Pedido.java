@@ -153,7 +153,7 @@ public class Pedido {
 		return null;
 	}
 
-	public double getValorTotal() {
+	public float getValorTotal() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
