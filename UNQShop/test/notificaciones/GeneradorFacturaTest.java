@@ -14,6 +14,7 @@ public class GeneradorFacturaTest {
     private GeneradorFactura generador;
     private Pedido mockPedido;
     private EstadoPedido mockEstadoAnterior;
+    private entidades.Cliente mockCliente;
 
     @BeforeEach
     public void setUp() {
@@ -21,6 +22,9 @@ public class GeneradorFacturaTest {
         generador = new GeneradorFactura();
         mockPedido = mock(Pedido.class);
         mockEstadoAnterior = mock(EstadoPedido.class);
+        mockCliente = mock(entidades.Cliente.class);
+        when(mockPedido.getCliente()).thenReturn(mockCliente);
+        when(mockPedido.getItems()).thenReturn(java.util.Collections.emptyList());
     }
 
     @Test
@@ -30,8 +34,7 @@ public class GeneradorFacturaTest {
         generador.actualizar(mockPedido, mockEstadoAnterior, nuevoEstado);
         
         // 3. VERIFY
-        // verifico que el pedido mockeado no sufra interacciones no deseadas
-        verifyNoInteractions(mockPedido); 
+        verify(mockCliente, times(1)).recibirFactura(any(entidades.Factura.class));
     }
 
     @Test

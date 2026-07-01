@@ -14,6 +14,7 @@ public class FidelizacionTest {
     private Fidelizacion fidelizacion;
     private Pedido mockPedido;
     private EstadoPedido mockEstadoAnterior;
+    private entidades.Cliente mockCliente;
 
     @BeforeEach
     public void setUp() {
@@ -21,6 +22,8 @@ public class FidelizacionTest {
         fidelizacion = new Fidelizacion();
         mockPedido = mock(Pedido.class);
         mockEstadoAnterior = mock(EstadoPedido.class);
+        mockCliente = mock(entidades.Cliente.class);
+        when(mockPedido.getCliente()).thenReturn(mockCliente);
     }
 
     @Test
@@ -30,7 +33,7 @@ public class FidelizacionTest {
         fidelizacion.actualizar(mockPedido, mockEstadoAnterior, nuevoEstado);
         
         // 3. VERIFY
-        verifyNoInteractions(mockPedido);
+        verify(mockCliente, times(1)).notificar(anyString());
     }
 
     @Test

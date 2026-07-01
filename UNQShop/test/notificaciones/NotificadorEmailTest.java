@@ -17,6 +17,7 @@ public class NotificadorEmailTest {
     private MailSender mockMailSender;
     private Pedido mockPedido;
     private EstadoPedido mockEstadoAnterior;
+    private entidades.Cliente mockCliente;
 
     @BeforeEach
     public void setUp() {
@@ -24,6 +25,8 @@ public class NotificadorEmailTest {
         mockMailSender = mock(MailSender.class);
         mockPedido = mock(Pedido.class);
         mockEstadoAnterior = mock(EstadoPedido.class);
+        mockCliente = mock(entidades.Cliente.class);
+        when(mockPedido.getCliente()).thenReturn(mockCliente);
         
         // SUT
         notificador = new NotificadorEmail(mockMailSender);
@@ -35,6 +38,7 @@ public class NotificadorEmailTest {
         notificador.actualizar(mockPedido, mockEstadoAnterior, new EstadoConfirmado(mockPedido));
         // 3. VERIFY: Verifico la interacción con el mock
         verify(mockMailSender, times(1)).enviar(anyString());
+        verify(mockCliente, times(1)).notificar(anyString());
     }
 
     @Test
@@ -43,6 +47,7 @@ public class NotificadorEmailTest {
         notificador.actualizar(mockPedido, mockEstadoAnterior, new EstadoEnviado());
         // 3. VERIFY
         verify(mockMailSender, times(1)).enviar(anyString());
+        verify(mockCliente, times(1)).notificar(anyString());
     }
 
     @Test
@@ -51,6 +56,7 @@ public class NotificadorEmailTest {
         notificador.actualizar(mockPedido, mockEstadoAnterior, new EstadoEntregado());
         // 3. VERIFY
         verify(mockMailSender, times(1)).enviar(anyString());
+        verify(mockCliente, times(1)).notificar(anyString());
     }
 
     @Test

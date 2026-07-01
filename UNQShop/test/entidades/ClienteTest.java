@@ -31,4 +31,21 @@ class ClienteTest {
     void testGetDireccion() {
         assertEquals(direccionMock, cliente.getDireccion());
     }
+
+    @Test
+    void testNotificacionesRecibidas() {
+        assertTrue(cliente.getNotificaciones().isEmpty());
+        cliente.notificar("Mensaje de prueba");
+        assertEquals(1, cliente.getNotificaciones().size());
+        assertTrue(cliente.getNotificaciones().contains("Mensaje de prueba"));
+    }
+
+    @Test
+    void testFacturas() {
+        assertTrue(cliente.getFacturas().isEmpty());
+        Factura facturaMock = mock(Factura.class);
+        cliente.recibirFactura(facturaMock);
+        assertEquals(1, cliente.getFacturas().size());
+        assertTrue(cliente.getFacturas().contains(facturaMock));
+    }
 }

@@ -19,8 +19,10 @@ public class NotificadorEmail implements PedidoObserver {
             nombreNuevoEstado.equals("EstadoEnviado") || 
             nombreNuevoEstado.equals("EstadoEntregado")) {
             
+            String mensaje = "El pedido ha cambiado a " + nombreNuevoEstado;
             //MailSender
-            this.mailSender.enviar("El pedido ha cambiado a " + nombreNuevoEstado);
+            this.mailSender.enviar(mensaje);
+            pedido.getCliente().notificar(mensaje);
         }
     }
 }

@@ -8,7 +8,9 @@ public class Fidelizacion implements PedidoObserver {
     @Override
     public void actualizar(Pedido pedido, EstadoPedido estadoAnterior, EstadoPedido nuevoEstado) {
         if (nuevoEstado.getClass().getSimpleName().equals("EstadoCancelado")) {
-            System.out.println("CUPÓN ENVIADO: Te regalamos 5% de descuento por tu pedido cancelado.");
+            String mensaje = "CUPÓN ENVIADO: Te regalamos 5% de descuento por tu pedido cancelado.";
+            System.out.println(mensaje);
+            pedido.getCliente().notificar(mensaje);
         }
     }
 }
